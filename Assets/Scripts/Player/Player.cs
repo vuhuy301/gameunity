@@ -7,6 +7,9 @@ public class Player : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] private float speed = 1f;
+    private bool facingLeft = false;
+    public static Player Instance;
+    public bool FacingLeft { get { return facingLeft; } set { facingLeft = value; } }
 
     private PlayerControl control;
     private Vector2 movement;
@@ -17,6 +20,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         control = new PlayerControl();
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -57,10 +61,12 @@ public class Player : MonoBehaviour
         if(mouse.x < playerScreenPoint.x)
         {
             spriteRenderer.flipX = true;
+            FacingLeft = true;
         }
         else
         {
             spriteRenderer.flipX = false;
+            FacingLeft = false;
         }
     }
 }
