@@ -15,6 +15,9 @@ GameObject:
   - component: {fileID: 7055684544559349130}
   - component: {fileID: 1851155923663569270}
   - component: {fileID: 4146111776150536313}
+  - component: {fileID: 6670268099767235967}
+  - component: {fileID: -5483138160376530443}
+  - component: {fileID: 5851464146868005461}
   m_Layer: 0
   m_Name: BlueSlime
   m_TagString: Untagged
@@ -186,7 +189,7 @@ Animator:
   m_GameObject: {fileID: 7290405122836055165}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e93c9e1371d93f2458d0c9ad38d97c7a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -197,3 +200,44 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6670268099767235967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7290405122836055165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11218c3657fd0374fb93d1ab1ce1ace5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 3
+  deathVFXPrefab: {fileID: 1231951914190127748, guid: 2135eb3f5750efe4a80bc995026d7b0c, type: 3}
+--- !u!114 &-5483138160376530443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7290405122836055165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a91528e4261389a478aa5eec123f94e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockBackTime: 0.2
+--- !u!114 &5851464146868005461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7290405122836055165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 525af5d97d95c85429da77e2ad9c04ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whiteFlashMat: {fileID: 2100000, guid: 62edfd3e1ab9d8e4c96b308c23dd17b7, type: 2}
+  restoreDafaultMatTime: 0.2
