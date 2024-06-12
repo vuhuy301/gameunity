@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,18 +7,19 @@ public class Sword : MonoBehaviour
     [SerializeField] private GameObject Slash_Prefab;
     [SerializeField] private Transform Slash_Animation;
     [SerializeField] private Transform weaponCollider;
-   private PlayerControl playerControl;
+    [SerializeField] private float attackCooldown = 1.0f; // Thời gian hồi chiêu tính bằng giây
+
+    private PlayerControl playerControl;
     private Animator animator;
     private Player player;
     private ActiveWeapon weapon;
-
-
     private GameObject slashAnim;
+    private bool canAttack = true;
 
     private void Awake()
     {
         player = GetComponentInParent<Player>();
-        weapon = GetComponentInParent<ActiveWeapon>();  
+        weapon = GetComponentInParent<ActiveWeapon>();
         animator = GetComponent<Animator>();
         playerControl = new PlayerControl();
     }
@@ -30,12 +31,21 @@ public class Sword : MonoBehaviour
 
     private void Start()
     {
-        playerControl.Combat.Attack.started += _ => Attack();    
+        playerControl.Combat.Attack.started += _ => TryAttack();
     }
 
     private void Update()
     {
         MouseFollow();
+    }
+
+    private void TryAttack()
+    {
+        if (canAttack)
+        {
+            Attack();
+            StartCoroutine(AttackCooldown());
+        }
     }
 
     private void Attack()
@@ -47,12 +57,17 @@ public class Sword : MonoBehaviour
         slashAnim.transform.parent = this.transform.parent;
     }
 
+    private IEnumerator AttackCooldown()
+    {
+        canAttack = false;
+        yield return new WaitForSeconds(attackCooldown);
+        canAttack = true;
+    }
+
     public void DoneAttackAnimEvent()
     {
         weaponCollider.gameObject.SetActive(false);
     }
-
- 
 
     public void SwingDownAnim()
     {
@@ -67,15 +82,16 @@ public class Sword : MonoBehaviour
         }
     }
 
-    private void MouseFollow() {
+    private void MouseFollow()
+    {
         Vector2 mousePos = Input.mousePosition;
         Vector2 playerScreenPoint = Camera.main.WorldToScreenPoint(player.transform.position);
 
         float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
 
-        if(mousePos.x < playerScreenPoint.x)
+        if (mousePos.x < playerScreenPoint.x)
         {
-            weapon.transform.rotation = Quaternion.Euler(0,-180, 0);
+            weapon.transform.rotation = Quaternion.Euler(0, -180, 0);
             weaponCollider.transform.rotation = Quaternion.Euler(0, -180, 0);
         }
         else
