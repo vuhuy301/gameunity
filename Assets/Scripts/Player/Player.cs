@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+
         Instance = this;
         control = new PlayerControl();
         body = GetComponent<Rigidbody2D>();
@@ -55,8 +56,8 @@ public class Player : MonoBehaviour
     }
 
     private void PlayerFacingDirection() {
-        Vector3 mouse = Input.mousePosition;
-        Vector3 playerScreenPoint = Camera.main.WorldToScreenPoint(transform.position);
+        Vector2 mouse = Input.mousePosition;
+        Vector2 playerScreenPoint = Camera.main.WorldToScreenPoint(transform.position);
 
         if(mouse.x < playerScreenPoint.x)
         {
