@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] private float speed = 1f;
+    [SerializeField] private Transform weaponCollider;
     private bool facingLeft = false;
     public static Player Instance;
     public bool FacingLeft { get { return facingLeft; } set { facingLeft = value; } }
@@ -42,6 +43,8 @@ public class Player : MonoBehaviour
         PlayerFacingDirection();
         Move();
     }
+
+    public Transform GetWeaponCollider() { return weaponCollider; } 
 
     private void PlayerInput()
     {
