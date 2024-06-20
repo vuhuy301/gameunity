@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ActiveInventory : MonoBehaviour
 {
-    private int activeSlotIndexNum = 0;
+    private int activeSlotIndexNum = 1;
     private PlayerControl playerControl;
 
     private void Awake()
