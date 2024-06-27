@@ -289,4 +289,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 22
-  particleOnHitPrefabVFX: {fileID: 1231951914190127748, guid: 2135eb3f5750efe4a80bc995026d7b0c, type: 3}
+  particleOnHitPrefabVFX: {fileID: 7738501529321910328, guid: a877f63a68f9c3f4f81f5d7c0fc68724, type: 3}
+  damage: 1

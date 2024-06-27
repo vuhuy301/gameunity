@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     private PlayerControl control;
     private Vector2 movement;
     private Rigidbody2D body;
-
+    private Knockback knockback;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        knockback = GetComponent<Knockback>();
     }
 
     private void OnEnable()
@@ -55,6 +56,7 @@ public class Player : MonoBehaviour
     }
 
     private void Move() { 
+        if(knockback.getKnockBack) { return; }
         body.MovePosition(body.position + movement * speed * Time.fixedDeltaTime);    
     }
 

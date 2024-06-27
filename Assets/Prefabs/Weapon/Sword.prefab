@@ -121,4 +121,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Slash_Prefab: {fileID: 8248925251470767997, guid: c166c3c651b1bbe45ba93cc0103539f8, type: 3}
   Slash_Animation: {fileID: 7492111221652560765, guid: 6b895c04d3d2b0b409f60ee99168af86, type: 3}
-  attackCooldown: 0.1
+  attackCooldown: 1

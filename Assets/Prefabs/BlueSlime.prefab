@@ -179,6 +179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  chaseDistance: 5
 --- !u!95 &4146111776150536313
 Animator:
   serializedVersion: 5

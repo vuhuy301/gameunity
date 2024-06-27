@@ -130,8 +130,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b34efaf03304a84b9a2d01a8f27a132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponInfo: {fileID: 0}
   arrowPrefab: {fileID: 3021896807899138729, guid: 972f9c9825d1362458bfdf027dd1009d, type: 3}
   arrowSpawnPoint: {fileID: 6908965517466749932}
+  attackCooldown: 0.1
 --- !u!95 &7160163300020292323
 Animator:
   serializedVersion: 5
