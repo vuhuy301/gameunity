@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ActiveInventory : MonoBehaviour
 {
-    private int activeSlotIndexNum = 1;
+    private int activeSlotIndexNum = 0;
     private PlayerControl playerControl;
 
     private void Awake()
@@ -14,8 +15,7 @@ public class ActiveInventory : MonoBehaviour
 
     private void Start()
     {
-        playerControl.Inventory.Keyboard.performed += ctx => ToggleActiveSlot((int)ctx.ReadValue<float>());
-        
+        playerControl.Inventory.Keyboard.performed += ctx => OnKeyboardInputPerformed(ctx);
     }
 
     private void OnEnable()
@@ -23,27 +23,45 @@ public class ActiveInventory : MonoBehaviour
         playerControl.Enable();
     }
 
-    private void ToggleActiveSlot(int numValue)
+    private void OnDisable()
     {
-        ToggleActiveHightLight(numValue - 1);
+        playerControl.Disable();
     }
 
-    private void ToggleActiveHightLight(int indexNum)
+    private void OnKeyboardInputPerformed(InputAction.CallbackContext context)
     {
+        int slotIndex = (int)context.ReadValue<float>() - 1; 
+        ToggleActiveSlot(slotIndex);
+    }
+
+    private void ToggleActiveSlot(int indexNum)
+    {
+        if (indexNum < 0 || indexNum >= transform.childCount)
+        {
+            Debug.LogWarning("Invalid slot index.");
+            return;
+        }
+
         activeSlotIndexNum = indexNum;
 
-        foreach (Transform inventorySlot in this.transform)
+        foreach (Transform inventorySlot in transform)
         {
             inventorySlot.GetChild(0).gameObject.SetActive(false);
         }
 
-        this.transform.GetChild(indexNum).GetChild(0).gameObject.SetActive(true);
+        transform.GetChild(indexNum).GetChild(0).gameObject.SetActive(true);
 
         ChangeActiveWeapon();
     }
 
     private void ChangeActiveWeapon()
     {
+        if (ActiveWeapon.Instance == null)
+        {
+            Debug.LogWarning("ActiveWeapon.Instance is null.");
+            return;
+        }
+
         // Nếu có vũ khí hiện tại, phá hủy nó
         if (ActiveWeapon.Instance.CurrentActiveWeapon != null)
         {
@@ -52,7 +70,7 @@ public class ActiveInventory : MonoBehaviour
 
         // Kiểm tra xem ô chứa vũ khí mới có hợp lệ không
         InventorySlot slot = transform.GetChild(activeSlotIndexNum).GetComponentInChildren<InventorySlot>();
-        if (slot.GetWeaponInfo() == null)
+        if (slot == null || slot.GetWeaponInfo() == null)
         {
             ActiveWeapon.Instance.WeaponNull();
             return;

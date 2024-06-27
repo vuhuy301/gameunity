@@ -1,27 +1,26 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Bow : MonoBehaviour
 {
     [SerializeField] private WeaponInfo weaponInfo;
     [SerializeField] private GameObject arrowPrefab;
     [SerializeField] private Transform arrowSpawnPoint;
+    [SerializeField] private float attackCooldown = 1.0f;
+    [SerializeField] private float range = 10f;// Thời gian chờ giữa các lần bắn
 
     private Transform weaponCollider;
-
-    readonly int FIRE_HASH = Animator.StringToHash("Fire");
-
     private Animator myAnimator;
     private PlayerControl playerControl;
-    private Player player;
     private ActiveWeapon weapon;
+    private bool canAttack = true;
+
+    readonly int FIRE_HASH = Animator.StringToHash("Fire");
 
     private void Awake()
     {
         myAnimator = GetComponent<Animator>();
-        player = GetComponentInParent<Player>();
-        weapon = GetComponentInParent<ActiveWeapon>();
         playerControl = new PlayerControl();
     }
 
@@ -33,43 +32,53 @@ public class Bow : MonoBehaviour
     private void Start()
     {
         weaponCollider = Player.Instance.GetWeaponCollider();
-
-        playerControl.Combat.Attack.started += _ => Attack();
-
-
+        playerControl.Combat.Attack.started += _ => TryAttack();
     }
 
     private void Update()
     {
         MouseFollow();
     }
-    public void Attack()
-    {
-        Debug.Log("abc");
-        myAnimator.SetTrigger(FIRE_HASH);
-        GameObject newArrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, ActiveWeapon.Instance.transform.rotation);
-        newArrow.GetComponent<Projectile>().UpdateWeaponInfo(weaponInfo);
 
-    }
-    public WeaponInfo GetWeaponInfo()
+    private void TryAttack()
     {
-        return weaponInfo;
+        if (this == null) return;
+
+        if (canAttack && myAnimator != null)
+        {
+            Attack();
+            StartCoroutine(AttackCooldown());
+        }
+    }
+
+    private void Attack()
+    {
+        if(myAnimator != null)
+        {
+            myAnimator.SetTrigger(FIRE_HASH);
+            GameObject newArrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, ActiveWeapon.Instance.transform.rotation);
+            newArrow.GetComponent<Projectile>().UpdateProjectTitleRange(range);
+        }
+        
+    }
+
+    private IEnumerator AttackCooldown()
+    {
+        canAttack = false;
+        yield return new WaitForSeconds(attackCooldown);
+        canAttack = true;
     }
 
     private void MouseFollow()
     {
-        // Lấy vị trí chuột trong không gian thế giới
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mouseWorldPosition.z = 0f;  // Đảm bảo vị trí z là 0
+        mouseWorldPosition.z = 0f;
 
-        // Lấy vị trí của người chơi trong không gian thế giới
         Vector3 playerPosition = Player.Instance.transform.position;
 
-        // Tính toán góc giữa vị trí người chơi và vị trí chuột
         Vector2 direction = mouseWorldPosition - playerPosition;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        // Xác định hướng và cập nhật góc quay của vũ khí
         if (mouseWorldPosition.x < playerPosition.x)
         {
             ActiveWeapon.Instance.transform.rotation = Quaternion.Euler(0, 0, angle);
@@ -82,6 +91,8 @@ public class Bow : MonoBehaviour
         }
     }
 
-
-
+    public WeaponInfo GetWeaponInfo()
+    {
+        return weaponInfo;
+    }
 }

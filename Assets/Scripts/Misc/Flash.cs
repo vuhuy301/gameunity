@@ -17,13 +17,17 @@ public class Flash : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         defaultMat = spriteRenderer.material;
     }
+    public float GetRestoreMatTime()
+    {
+        return restoreDafaultMatTime;
+    }
 
     public IEnumerator FlashRoutine()
     {
         spriteRenderer.material = whiteFlashMat;
         yield return new WaitForSeconds(restoreDafaultMatTime);
         spriteRenderer.material = defaultMat;
-        enemyHealth.DetecDeath();
+        
     }
 
 }

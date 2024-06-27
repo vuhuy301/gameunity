@@ -29,6 +29,8 @@ public class Sword : MonoBehaviour
         playerControl.Enable();
     }
 
+
+
     private void Start()
     {
         weaponCollider = Player.Instance.GetWeaponCollider();
@@ -46,6 +48,8 @@ public class Sword : MonoBehaviour
 
     public void TryAttack()
     {
+        if (this == null) return; // Kiểm tra xem đối tượng Sword đã bị hủy chưa
+
         if (canAttack)
         {
             Attack();
@@ -60,7 +64,11 @@ public class Sword : MonoBehaviour
             animator.SetTrigger("Attack");
             weaponCollider.gameObject.SetActive(true);
         }
-        
+        if (slashAnim != null)
+        {
+            Destroy(slashAnim);
+        }
+
 
         slashAnim = Instantiate(Slash_Prefab, Slash_Animation.position, Quaternion.identity);
         slashAnim.transform.parent = this.transform.parent;
