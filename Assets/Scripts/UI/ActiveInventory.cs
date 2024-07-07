@@ -16,6 +16,7 @@ public class ActiveInventory : MonoBehaviour
     private void Start()
     {
         playerControl.Inventory.Keyboard.performed += ctx => OnKeyboardInputPerformed(ctx);
+        ToggleActiveSlot(0);
     }
 
     private void OnEnable()
@@ -62,13 +63,13 @@ public class ActiveInventory : MonoBehaviour
             return;
         }
 
-        // Nếu có vũ khí hiện tại, phá hủy nó
+
         if (ActiveWeapon.Instance.CurrentActiveWeapon != null)
         {
             Destroy(ActiveWeapon.Instance.CurrentActiveWeapon.gameObject);
         }
 
-        // Kiểm tra xem ô chứa vũ khí mới có hợp lệ không
+
         InventorySlot slot = transform.GetChild(activeSlotIndexNum).GetComponentInChildren<InventorySlot>();
         if (slot == null || slot.GetWeaponInfo() == null)
         {
@@ -76,11 +77,11 @@ public class ActiveInventory : MonoBehaviour
             return;
         }
 
-        // Lấy prefab của vũ khí mới và tạo nó trong cảnh
+
         GameObject weaponToSpawn = slot.GetWeaponInfo().weaponPrefab;
         GameObject newWeapon = Instantiate(weaponToSpawn, ActiveWeapon.Instance.transform.position, Quaternion.identity);
 
-        // Đặt lại vị trí và gán vũ khí mới vào đối tượng ActiveWeapon
+
         ActiveWeapon.Instance.transform.rotation = Quaternion.Euler(0, 0, 0);
         newWeapon.transform.parent = ActiveWeapon.Instance.transform;
 
