@@ -194,6 +194,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 3
   deathVFXPrefab: {fileID: 1231951914190127748, guid: 2135eb3f5750efe4a80bc995026d7b0c, type: 3}
+  arrowPrefab: {fileID: 7003446192973217901, guid: a013072440df34b4f98081b98608fe05, type: 3}
+  healthPrefab: {fileID: 1275011518847210533, guid: 273e906d10042c440a3d06a6e14df919, type: 3}
 --- !u!114 &-5483138160376530443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,6 +236,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 56012660528374925, guid: 7297a817881850d43bd40da3d855ac41, type: 3}
-  firePoint: {fileID: 0}
-  bulletSpeed: 10
-  fireRate: 2
+  fireRate: 0.3

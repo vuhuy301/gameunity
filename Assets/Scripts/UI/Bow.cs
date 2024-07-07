@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Bow : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class Bow : MonoBehaviour
     [SerializeField] private Transform arrowSpawnPoint;
     [SerializeField] private float attackCooldown = 1.0f;
     [SerializeField] private float range = 10f;// Thời gian chờ giữa các lần bắn
+    [SerializeField] private int arrowCount = 10;
+
 
     private Transform weaponCollider;
     private Animator myAnimator;
@@ -42,11 +45,13 @@ public class Bow : MonoBehaviour
 
     private void TryAttack()
     {
+        int currentArrowCount = Player.Instance.GetArrowCount();
         if (this == null) return;
 
-        if (canAttack && myAnimator != null)
+        if (canAttack && myAnimator != null && currentArrowCount > 0)
         {
             Attack();
+            Player.Instance.DecreaseArrowCount();
             StartCoroutine(AttackCooldown());
         }
     }
@@ -58,6 +63,7 @@ public class Bow : MonoBehaviour
             myAnimator.SetTrigger(FIRE_HASH);
             GameObject newArrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, ActiveWeapon.Instance.transform.rotation);
             newArrow.GetComponent<Projectile>().UpdateProjectTitleRange(range);
+            arrowCount--;
         }
         
     }
@@ -90,7 +96,7 @@ public class Bow : MonoBehaviour
             weaponCollider.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
     }
-
+   
     public WeaponInfo GetWeaponInfo()
     {
         return weaponInfo;
